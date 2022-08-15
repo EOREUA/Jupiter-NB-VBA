@@ -126,3 +126,116 @@ Next: Next: Next: Next: Next: Next
 Exit Sub
 err_: Resume nxt_
 End Sub
+
+Function Get_Text_from_Comment(rCell As Range) As String
+    Dim sTxt As String
+    Application.Volatile True
+    On Error Resume Next
+    sTxt = rCell.Comment.Text
+    'Get_Text_from_Comment = Mid(sTxt, InStr(sTxt, ":") + 1)
+    Get_Text_from_Comment = Mid(sTxt, InStr(sTxt, ""))
+End Function
+
+Function GetFileOwner(fileDir As String, fileName As String) As String
+    Dim securityUtility As Object
+    Dim securityDescriptor As Object
+    Set securityUtility = CreateObject("ADsSecurityUtility")
+    Set securityDescriptor = securityUtility.GetSecurityDescriptor(fileDir & fileName, 1, 1)
+    GetFileOwner = securityDescriptor.Owner
+End Function
+
+Sub Format_table_reworked()
+'
+' Format_table Ìàêðîñ
+'
+
+'
+'    Range("A1:G13").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlHairline
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlHairline
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlHairline
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlHairline
+    End With
+    With Selection.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlHairline
+    End With
+    With Selection.Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlHairline
+    End With
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlHairline
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlDouble
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThick
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlHairline
+    End With
+    With Selection.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlHairline
+    End With
+    With Selection.Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlHairline
+    End With
+'    Range("A1:G1").Select
+ '   With Selection.Rows(1).Interior
+ With Cells(Selection.Row, Selection.Column).Resize(, Selection.Columns.Count)
+ With .Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .ThemeColor = xlThemeColorDark1
+        .TintAndShade = -0.149998474074526
+        .PatternTintAndShade = 0
+    End With
+    End With
+End Sub
