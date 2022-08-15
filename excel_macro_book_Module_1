@@ -1,0 +1,128 @@
+Sub DuplicatesColoring()
+     
+    Dim Dupes()     'naming a range for storing of duplicates
+    ReDim Dupes(1 To Selection.Cells.Count, 1 To 4)
+     
+    Selection.Interior.ColorIndex = -4142   'deleting cell fill when present
+    i = 3
+    For Each cell In Selection
+        If WorksheetFunction.CountIf(Selection, cell.Value) > 1 Then
+            For k = LBound(Dupes) To UBound(Dupes)
+                'if cell is already in a duplicate range — we're filling it with color
+                If Dupes(k, 1) = cell Then cell.Interior.ColorIndex = Dupes(k, 2)
+            Next k
+            'if cell consists a duplicate but still not in a range: adding it to a range and filling it with a color
+            If cell.Interior.ColorIndex = -4142 Then
+                cell.Interior.ColorIndex = i
+                Dupes(i, 1) = cell.Value
+                Dupes(i, 2) = i
+                i = i + 1
+            End If
+        End If
+    Next cell
+End Sub
+
+Sub Copy_Folder()
+'This example copy all files and subfolders from FromPath to ToPath.
+'Note: If ToPath already exist it will overwrite existing files in this folder
+'if ToPath not exist it will be made for you.
+    Dim FSO As Object
+    Dim FromPath As String
+    Dim ToPath As String
+
+'Dim lRow As Long
+'Find the last non-blank cell in column A(1)
+'    lRow = Cells(Rows.Count, 1).End(xlUp).Row
+'Dim n As Integer
+'For n = 1 To lRow
+
+
+
+Dim i As Integer
+For i = 4 To 144
+
+On Error Resume Next
+
+    FromPath = Range("M" & i).Value
+    '"C:\Users\Ron\Data"  '<< Change
+    'ToPath = "C:\Users\Ron\Test"    '<< Change
+    ToPath = Range("N" & i).Value
+    'If you want to create a backup of your folder every time you run this macro
+    'you can create a unique folder with a Date/Time stamp.
+    'ToPath = "C:\Users\Ron\" & Format(Now, "yyyy-mm-dd h-mm-ss")
+
+    If Right(FromPath, 1) = "\" Then
+        FromPath = Left(FromPath, Len(FromPath) - 1)
+    End If
+
+    If Right(ToPath, 1) = "\" Then
+        ToPath = Left(ToPath, Len(ToPath) - 1)
+    End If
+
+    Set FSO = CreateObject("scripting.filesystemobject")
+
+   If FSO.FolderExists(FromPath) = False Then Range("Y" & i).Value = FromPath & " doesn't exist"
+   ' If FSO.FolderExists(FromPath) = False Then
+   '     MsgBox FromPath & " doesn't exist"
+   '     Exit Sub
+   ' End If
+
+    FSO.CopyFolder Source:=FromPath, Destination:=ToPath
+    
+  
+  
+    Next
+    
+    MsgBox "You can find the files and subfolders from " & FromPath & " in " & ToPath
+
+End Sub
+
+Function Get_Hyperlink_Address(ByVal rCell As Range) As String
+    Dim s As String
+    If rCell.Hyperlinks.Count = 0 Then
+        If Mid$(rCell.Formula, 2, 9) = "HYPERLINK" Then
+            Get_Hyperlink_Address = Mid$(rCell.Formula, 13, InStr(13, rCell.Formula, Chr(34)) - 13)
+        Else
+            Get_Hyperlink_Address = "Â ÿ÷åéêå íåò ãèïåðññûëêè!"
+        End If
+    Else
+        s = rCell.Hyperlinks(1).SubAddress
+        If s <> "" Then s = "#" & rCell.Hyperlinks(1).SubAddress
+        Get_Hyperlink_Address = rCell.Hyperlinks(rCell.Hyperlinks.Count).Address & s
+    End If
+End Function
+
+Function Get_Hyperlink_Title(ByVal rCell As Range) As String
+    Dim s As String
+    If rCell.Hyperlinks.Count = 0 Then
+        If Mid$(rCell.Formula, 2, 9) = "HYPERLINK" Then
+            Get_Hyperlink_Title = rCell.Text
+        Else
+            Get_Hyperlink_Title = ""
+        End If
+    Else
+        Get_Hyperlink_Title = rCell.Hyperlinks(1).ScreenTip
+    End If
+End Function
+
+Sub podbor_ruexcel()
+Dim E1, E2, E3, E4, E5, E6, i, j, k, l, m, n As Integer
+Dim ruexcel As String
+Dim t!
+t = Timer
+On Error GoTo err_
+For i = 65 To 66: For j = 65 To 66: For k = 65 To 66
+For l = 65 To 66: For m = 65 To 66: For E1 = 65 To 66
+For E2 = 65 To 66: For E3 = 65 To 66: For E4 = 65 To 66
+For E5 = 65 To 66: For E6 = 65 To 66
+ruexcel = Chr(i) & Chr(j) & Chr(k) & Chr(l) & Chr(m) & Chr(E1) & Chr(E2) & Chr(E3) & Chr(E4) & Chr(E5) & Chr(E6)
+For n = 32 To 126
+Unprotect ruexcel & Chr(n)
+MsgBox "Pwd succsessfully disabled" & Format(Timer - t, "0.0 sec")
+'MsgBox "Done in " & Format(Timer - t, "0.0 sec")
+Exit Sub
+nxt_: Next: Next: Next: Next: Next: Next
+Next: Next: Next: Next: Next: Next
+Exit Sub
+err_: Resume nxt_
+End Sub
